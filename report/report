@@ -1,1 +1,100 @@
+Project Report: Simple Command-Line Calculator
+1. Introduction
+This project details the development of a Simple Command-Line Calculator implemented in Python. The goal was to build a highly usable, reliable utility that demonstrates core programming concepts such as modular function design, control flow, and exception handling within the context of a straightforward real-world application.
+2. Problem Statement
+The motivation for this project is to address the need for a rapid, reliable, and easily accessible tool for basic arithmetic calculations in terminal-based environments. The design prioritizes speed and robust error handling over complex functionality.
+3. Functional Requirements (FRs)
+The system must include three major functional modules:
+FR ID	Functional Module	Description
+FR1	Arithmetic Operations	Must correctly perform Addition, Subtraction, Multiplication, and Division between two user-provided numbers.
+FR2	User Interface (UI) Module	Must present a clear, loopable menu for selecting an operation or exiting the program.
+FR3	Input and Error Handling	Must validate user input to ensure numbers are correctly parsed and must prevent the application from crashing due to division by zero or invalid input types.
+4. Non-functional Requirements (NFRs)
+The project adheres to the following four NFRs:
+NFR ID	Requirement	Strategy Implemented
+NFR1	Usability	The application is purely menu-driven with clear prompts and farewell messages.
+NFR2	Reliability	The nos() function uses a try-except block to ensure only valid numeric data is processed. The divide() function explicitly checks for a divisor of zero.
+NFR3	Performance	Operations are instantaneous due to the simplicity of the arithmetic functions, ensuring a sub-second response time.
+NFR4	Maintainability	The project utilizes a modular, top-down design where each operation (add, subtract, etc.) is isolated in its own easily testable function.
+5. System Architecture
+The calculator utilizes a Monolithic CLI Architecture (a single, self-contained application).
+•	Design Rationale: For a small utility, this architecture is the simplest and most performant, avoiding the overhead of multi-module or distributed systems.
+6. Design Diagrams
+Workflow Diagram (Process Flow)
+This diagram illustrates the main operational flow of the application.
+graph TD
+    A[Start Application] --> B{Show Menu & Get Choice};
+    B -- Choice 1-4 --> C[Get First Number (A)];
+    B -- Choice 5 --> E[Exit];
+    B -- Invalid Choice --> F[Display Invalid Message]
+    F --> B;
+
+    C --> G[Get Second Number (B)];
+    G --> H{Perform Operation};
+    H -- Success --> I[Display Result];
+    H -- Error (e.g., Divide by Zero) --> J[Display Error Message];
+    
+    I --> B;
+    J --> B;
+Class / Component Diagram
+The design is broken into three main components (Python functions) that interact sequentially.
+Component	Responsibility	Inputs	Outputs
+Arithmetic Module	Performs the specific mathematical calculation.	a (float), b (float)	Result (float or string error)
+Input Handler (nos)	Ensures all user input is a valid numeric type.	prompt (string)	Valid number (float)
+Main Logic (calculate)	Manages the main application loop, menu, and workflow orchestration.	User choices (string)	Calls to other modules, Menu output
+7. Design Decisions & Rationale
+•	Use of Functions: Dedicated functions (add, subtract, etc.) were used to promote code reuse and modularity, making the code easier to test and read.
+•	Handling ValueError: A separate function (nos) was created to abstract and handle the repetitive task of input validation and error looping, keeping the main calculate function clean.
+•	Floating Point: All numbers are converted to float to handle both integer and decimal inputs, maximizing flexibility.
+8. Implementation Details
+The project is implemented entirely in Python (calculator.py).
+•	Modular Implementation: Each of the four arithmetic operations is implemented as a simple, pure function, adhering to good programming practices.
+•	Robust Input Handling: The nos() function ensures the application doesn't crash upon receiving non-numeric input, a common pitfall in CLI applications.
+•	Controlled Output: Results are presented clearly to the user, and non-numeric results (like the "Divide by Zero" error) are handled gracefully before printing.
+9. Screenshots / Results
+(As this is a command-line application, screenshots would show console output. Sample output is provided below for demonstration.)
+Hey, its your calculator
+
+--- Menu ---
+1: Addition (+)
+2: Subtraction (-)
+3: Multiplication (*)
+4: Division (/)
+5: Exit (Thanks!!)
+------------
+Which operation you would love to do today?: 4
+Enter the first number: 100
+Enter the second number: 0
+
+Error: Zero can't be divide-Error
+
+--- Menu ---
+...
+Which operation you would love to do today?: 1
+Enter the first number: 5.5
+Enter the second number: 2
+
+I've got it! The result of 5.5 + 2.0 is:
+    7.5 
+Wasn't that easy? What's next?
+10. Testing Approach
+Testing was executed in two phases:
+1.	Unit Testing (Functions): Each arithmetic function (add, subtract, multiply, divide) was manually tested with various inputs (positive, negative, zero) to ensure correct output. The division by zero case was specifically tested to ensure the error string was returned.
+2.	System Testing (Workflow): The calculate and nos functions were tested to ensure:
+o	The menu loop runs correctly.
+o	Invalid menu choices are rejected.
+o	Non-numeric inputs (e.g., letters, symbols) are correctly caught by nos() and prompt for retry.
+11. Challenges Faced
+The main challenge was ensuring robust input handling. Standard float(input()) can crash the program easily. This was overcome by isolating the input process into the dedicated nos() function, which uses a while True/try-except loop, effectively making the input collection idempotent and fail-safe.
+12. Learnings & Key Takeaways
+•	Modularity: Breaking the problem into smaller, testable functions significantly improved the code's readability and maintainability.
+•	Defensive Programming: The importance of anticipating user errors (like invalid input or division by zero) and implementing graceful handling was reinforced.
+•	CLI UX: Even a simple CLI tool benefits greatly from clear menus and informative prompts.
+13. Future Enhancements
+•	Advanced Operations: Add support for exponents, square roots, and trigonometric functions.
+•	Memory Functionality: Implement a simple "Memory" feature (M+, MR, MC) to store and retrieve results.
+•	Expression Parsing: Extend the application to parse entire mathematical expressions (e.g., 2 + 3 * (4 - 1)) rather than just two operands at a time.
+14. References
+•	None. This is an original implementation based on fundamental Python concepts.
+
 
